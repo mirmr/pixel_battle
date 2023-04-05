@@ -1,0 +1,16 @@
+
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=pixel_battle
+      - POSTGRES_PASSWORD=pixel_battle
+      - POSTGRES_DATABASE=pixel_battle
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local

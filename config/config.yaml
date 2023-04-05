@@ -1,0 +1,6 @@
+db:
+  user: pixel_battle
+  password: pixel_battle
+  host: localhost
+  dbname: pixel_battle
+  port: 5432

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "width", "height", "active_from", "active_to"],
+  "properties": {
+    "name": {"type": "string"},
+    "width": {"type": "integer"},
+    "height": {"type": "integer"},
+    "active_from": {"type": "string"},
+    "active_to": {"type": "string"}
+  }
+}
