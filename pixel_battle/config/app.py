@@ -13,5 +13,10 @@ class DBConfig(BaseModel):
         return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.dbname}"
 
 
+class MainConfig(BaseModel):
+    cooldown: PositiveInt
+
+
 class AppConfig(BaseModel):
     db: DBConfig
+    app: MainConfig

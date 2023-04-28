@@ -3,7 +3,6 @@ from typing import List, Tuple
 from click import group, option
 
 
-
 @group("server")
 def server() -> None:
     """
@@ -32,6 +31,7 @@ def routes() -> None:
     from pixel_battle.api import app
     from pixel_battle.helpers.api import BaseResource
     from falcon.routing.compiled import CompiledRouterNode
+
     routes_list: List[Tuple[str, BaseResource]] = []
 
     def get_children(node: CompiledRouterNode) -> None:

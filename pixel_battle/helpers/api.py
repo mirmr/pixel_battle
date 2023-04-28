@@ -67,7 +67,8 @@ class http_request:
                     except Exception as ex:
                         raise ResponseValidationError(str(ex))
 
-                resp.text = dumps(result, ensure_ascii=False)
+                if result is not None:
+                    resp.text = dumps(result, ensure_ascii=False)
             except HTTPError as ex:
                 raise ex
             except ProjectError as ex:

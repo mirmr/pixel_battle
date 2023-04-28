@@ -11,7 +11,7 @@ from pixel_battle.logic.canvas_service import CanvasService
 class CanvasResource(BaseResource):
     @classmethod
     @falcon.before(auth_required)
-    @http_request(request_schema="canvas/request.json", response_schema="canvas/response.json")
+    @http_request(request_schema="canvas/post_request.json", response_schema="canvas/post_response.json")
     def on_post(cls, req: Request, resp: Response, account: Account):
         name = req.media["name"]
         width = req.media["width"]

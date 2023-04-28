@@ -97,4 +97,3 @@ class BaseRepository(Generic[T, T_ID]):
             }
             res: Result = db.execute(self._get_by_id_q(), **params)
             return self._row_to_instance(self._one(res))
-

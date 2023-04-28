@@ -4,3 +4,5 @@ db:
   host: localhost
   dbname: pixel_battle
   port: 5432
+app:
+  cooldown: 15

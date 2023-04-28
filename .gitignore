@@ -2,3 +2,5 @@ venv
 pixel_battle.egg-info
 .mypy_cache
 .idea
+__pycache__
+.local

@@ -1,4 +1,4 @@
-from falcon import HTTPBadRequest, HTTPInternalServerError, HTTPNotFound, HTTPConflict
+from falcon import HTTPBadRequest, HTTPInternalServerError, HTTPNotFound, HTTPConflict, HTTPTooManyRequests
 
 
 class ProjectError(Exception):
@@ -39,6 +39,10 @@ class LoginError(BaseHTTPError, HTTPBadRequest):
     pass
 
 
+class RateLimitExceeded(HTTPTooManyRequests, BaseHTTPError):
+    pass
+
+
 class IntegrityError(ProjectError):
     pass
 
@@ -56,4 +60,8 @@ class TokenNotFoundError(RowNotFoundError):
 
 
 class CanvasNotFoundError(RowNotFoundError):
+    pass
+
+
+class CanvasLogNotFoundError(RowNotFoundError):
     pass

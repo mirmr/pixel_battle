@@ -31,7 +31,7 @@ class Canvas:
         self.created_at = created_at
 
     def __repr__(self) -> str:
-        return f'<Token(id={self.id}, account_id={self.account_id}, created_at="{self.created_at}")>'
+        return f'<Canvas(id={self.id}, account_id={self.account_id}, created_at="{self.created_at}")>'
 
 
 class CanvasRepository(BaseRepository[Canvas, int]):

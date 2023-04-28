@@ -6,7 +6,7 @@ from pixel_battle.logic.account_service import AccountService
 
 class LoginResource(BaseResource):
     @classmethod
-    @http_request(request_schema="login/request.json", response_schema="login/response.json")
+    @http_request(request_schema="login/post_request.json", response_schema="login/post_response.json")
     def on_post(cls, req: Request, resp: Response):
         name = req.media["name"]
         password = req.media["password"]

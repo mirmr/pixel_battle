@@ -11,7 +11,7 @@ from pixel_battle.logic.account_service import AccountService
 
 class AccountResource(BaseResource):
     @classmethod
-    @http_request(response_schema="account/response.json")
+    @http_request(response_schema="account/get_response.json")
     def on_get(cls, req: Request, resp: Response):
         g_id = req.get_param_as_int("g_id", required=True)
         assert g_id is not None
@@ -30,7 +30,7 @@ class AccountResource(BaseResource):
 
     @classmethod
     @falcon.before(auth_required)
-    @http_request(request_schema="account/patch_request.json", response_schema="account/response.json")
+    @http_request(request_schema="account/patch_request.json", response_schema="account/get_response.json")
     def on_patch(cls, req: Request, resp: Response, account: Account):
         name = req.media.get("name")
         password = req.media.get("password")
@@ -44,7 +44,7 @@ class AccountResource(BaseResource):
         }
 
     @classmethod
-    @http_request(request_schema="account/request.json", response_schema="account/response.json")
+    @http_request(request_schema="account/post_request.json", response_schema="account/get_response.json")
     def on_post(cls, req: Request, resp: Response):
         name: str = req.media["name"]
         password: str = req.media["password"]
