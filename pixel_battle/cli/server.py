@@ -19,8 +19,13 @@ def run(port: int) -> None:
     """
     from werkzeug import run_simple
     from pixel_battle.api import app
+    from pixel_battle.api import CorsMiddleware
 
-    run_simple("localhost", port, app, use_reloader=True)
+    host = "localhost"
+
+    app.add_middleware(CorsMiddleware(host))
+
+    run_simple(host, port, app, use_reloader=True)
 
 
 @server.command("routes")
