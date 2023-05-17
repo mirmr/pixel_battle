@@ -3,6 +3,7 @@ from datetime import datetime
 from pixel_battle.db.models import BaseRepository
 from pixel_battle.db.tables import canvases
 from pixel_battle.exceptions import CanvasNotFoundError
+from pixel_battle.helpers import db_manager
 
 
 class Canvas:
@@ -50,3 +51,8 @@ class CanvasRepository(BaseRepository[Canvas, int]):
             updated_at=row.updated_at,
             created_at=row.created_at,
         )
+
+    def get_user_canvases(self, account_id: int) -> list[Canvas]:
+        with db_manager.session() as db:
+            query = self._get_q().where(self.table.c.account_id == account_id)
+            return list(map(self._row_to_instance, db.execute(query).fetchall()))

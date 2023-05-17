@@ -21,7 +21,9 @@ class CanvasDataResource(BaseResource):
             except CanvasNotFoundError as ex:
                 raise HTTPNotFound(description=f"Canvas {canvas_id} not found") from ex
 
-            return canvas_service.get_canvas_state(canvas, datetime.utcnow())
+            at = req.get_param_as_datetime("at", default=datetime.utcnow())
+
+            return canvas_service.get_canvas_state(canvas, at)
 
     @classmethod
     @falcon.before(auth_required)

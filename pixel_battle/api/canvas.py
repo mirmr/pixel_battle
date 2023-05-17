@@ -1,11 +1,28 @@
+from typing import Any
+
 import falcon
 from falcon import HTTPBadRequest, HTTPForbidden, HTTPNotFound, Request, Response
 
 from pixel_battle.db.models.account import Account
+from pixel_battle.db.models.canvas import Canvas
 from pixel_battle.exceptions import CanvasNotFoundError
 from pixel_battle.helpers import db_manager
 from pixel_battle.helpers.api import auth_required, BaseResource, http_request
 from pixel_battle.logic.canvas_service import CanvasService
+
+
+def serialize_canvas(canvas: Canvas) -> dict[str, Any]:
+    return {
+        "id": canvas.id,
+        "account_id": canvas.account_id,
+        "name": canvas.name,
+        "width": canvas.width,
+        "height": canvas.height,
+        "active_from": canvas.active_from.isoformat(),
+        "active_to": canvas.active_to.isoformat(),
+        "updated_at": canvas.updated_at.isoformat(),
+        "created_at": canvas.created_at.isoformat(),
+    }
 
 
 class CanvasResource(BaseResource):
@@ -31,17 +48,7 @@ class CanvasResource(BaseResource):
             active_to=active_to,
         )
 
-        return {
-            "id": canvas.id,
-            "account_id": canvas.account_id,
-            "name": canvas.name,
-            "width": canvas.width,
-            "height": canvas.height,
-            "active_from": canvas.active_from.isoformat(),
-            "active_to": canvas.active_to.isoformat(),
-            "updated_at": canvas.updated_at.isoformat(),
-            "created_at": canvas.created_at.isoformat(),
-        }
+        return serialize_canvas(canvas)
 
 
 class CanvasManagementResource(BaseResource):
@@ -75,17 +82,7 @@ class CanvasManagementResource(BaseResource):
                 active_to,
             )
 
-            return {
-                "id": canvas.id,
-                "account_id": canvas.account_id,
-                "name": canvas.name,
-                "width": canvas.width,
-                "height": canvas.height,
-                "active_from": canvas.active_from.isoformat(),
-                "active_to": canvas.active_to.isoformat(),
-                "updated_at": canvas.updated_at.isoformat(),
-                "created_at": canvas.created_at.isoformat(),
-            }
+            return serialize_canvas(canvas)
 
     @classmethod
     @http_request(response_schema="canvas_management/get_response.json")
@@ -97,14 +94,16 @@ class CanvasManagementResource(BaseResource):
             except CanvasNotFoundError as ex:
                 raise HTTPNotFound(description=f"Canvas {canvas_id} not found") from ex
 
-            return {
-                "id": canvas.id,
-                "account_id": canvas.account_id,
-                "name": canvas.name,
-                "width": canvas.width,
-                "height": canvas.height,
-                "active_from": canvas.active_from.isoformat(),
-                "active_to": canvas.active_to.isoformat(),
-                "updated_at": canvas.updated_at.isoformat(),
-                "created_at": canvas.created_at.isoformat(),
-            }
+            return serialize_canvas(canvas)
+
+
+class UserCanvasesResource(BaseResource):
+    @classmethod
+    @falcon.before(auth_required)
+    @http_request(response_schema="user_canvases/get_response.json")
+    def on_get(cls, req: Request, resp: Response, account: Account):
+        canvas_service = CanvasService()
+        with db_manager.session():
+            canvases = canvas_service.get_user_canvases(account)
+
+            return [serialize_canvas(canvas) for canvas in canvases]

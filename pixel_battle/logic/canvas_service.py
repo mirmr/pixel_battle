@@ -123,3 +123,7 @@ class CanvasService:
             color=color,
             created_at=current_time,
         )
+
+    def get_user_canvases(self, account: Account) -> list[Canvas]:
+        with db_manager.session():
+            return canvas_repo.get_user_canvases(account.id)
