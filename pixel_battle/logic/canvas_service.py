@@ -8,7 +8,6 @@ from pixel_battle.config import app_config
 from pixel_battle.db import canvas_log_repo, canvas_repo
 from pixel_battle.db.models.account import Account
 from pixel_battle.db.models.canvas import Canvas
-from pixel_battle.db.models.canvas_log import CanvasLog
 from pixel_battle.exceptions import RateLimitExceeded
 from pixel_battle.helpers import db_manager
 
@@ -101,9 +100,9 @@ class CanvasService:
 
     def fill_pixel(self, x: int, y: int, color: str, canvas: Canvas, account: Account) -> None:
         if x >= canvas.width:
-            raise RuntimeError()
+            raise HTTPBadRequest(description=f"x must be less than {canvas.width}")
         if y >= canvas.height:
-            raise RuntimeError()
+            raise HTTPBadRequest(description=f"y must be less than {canvas.height}")
 
         current_time = datetime.utcnow()
         if (

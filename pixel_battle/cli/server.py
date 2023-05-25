@@ -23,7 +23,7 @@ def run(port: int) -> None:
 
     host = "localhost"
 
-    app.add_middleware(CorsMiddleware(host))
+    app.add_middleware(CorsMiddleware('*'))
 
     run_simple(host, port, app, use_reloader=True)
 

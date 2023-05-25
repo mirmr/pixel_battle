@@ -13,3 +13,5 @@ stylecheck:
 style:
 	black pixel_battle
 
+test:
+	pytest -v pixel_battle/api

@@ -21,6 +21,14 @@ class Account:
         self.created_at = created_at
         self.updated_at = updated_at
 
+    def __eq__(self, other: "Account") -> bool:
+        if not isinstance(other, self.__class__):
+            return False
+        for slot in self.__slots__:
+            if getattr(self, slot) != getattr(other, slot):
+                return False
+        return True
+
     def __repr__(self) -> str:
         return f'<Account(id={self.id}, name={self.name}, updated_at="{self.updated_at}")>'
 
